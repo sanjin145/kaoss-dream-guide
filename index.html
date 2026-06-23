@@ -529,6 +529,62 @@
       letter-spacing: .07em; text-transform: uppercase;
     }
 
+    /* ─── GLOSSARY ────────────────────────────────────── */
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    .glossary-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.4rem;
+      display: flex; gap: 1rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .glossary-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 2px 16px rgba(58,255,216,.08);
+    }
+
+    .glossary-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      width: 40px;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 2px;
+    }
+
+    .glossary-content { flex: 1; }
+
+    .glossary-term {
+      font-family: var(--font-display);
+      font-size: .92rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+
+    .glossary-def {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .glossary-def strong {
+      color: var(--fog);
+      font-weight: 500;
+    }
+
+    @media (max-width: 500px) {
+      .glossary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ─── FOOTER ──────────────────────────────────────── */
     footer {
       position: relative; z-index: 1;
@@ -566,6 +622,7 @@
 <nav>
   <span class="nav-logo">卡厄思梦境</span>
   <ul class="nav-links">
+    <li><a href="#glossary">基础概念</a></li>
     <li><a href="#classes">职业</a></li>
     <li><a href="#bosses">Boss</a></li>
     <li><a href="#tips">新手指南</a></li>
@@ -591,6 +648,7 @@
 <!-- ─── QUICK NAV BAR ─────────────────────────────────── -->
 <div class="quick-nav">
   <div class="quick-nav-inner">
+    <a href="#glossary" class="qn-item"><span class="icon">📖</span>基础概念</a>
     <a href="#classes" class="qn-item"><span class="icon">⚔️</span>职业</a>
     <a href="#bosses" class="qn-item"><span class="icon">👁</span>Boss</a>
     <a href="#tips"   class="qn-item"><span class="icon">📖</span>新手指南</a>
@@ -599,6 +657,115 @@
     <a href="#patch"  class="qn-item"><span class="icon">🔔</span>版本更新</a>
   </div>
 </div>
+
+<hr class="divider" />
+
+<!-- ─── GLOSSARY ─────────────────────────────────────── -->
+<section id="glossary" class="section">
+  <p class="section-label">基础概念</p>
+  <h2 class="section-title">梦境名词辞典</h2>
+  <p style="color:var(--muted);font-size:.85rem;margin-top:-2rem;margin-bottom:2.2rem;">用最简单的话，说清楚梦境世界的基础知识。不看攻略也能轻松入门。</p>
+
+  <div class="glossary-grid">
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🌀</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦境</div>
+        <p class="glossary-def">游戏发生的世界。一个由集体潜意识构成的奇幻空间，你在其中探索、战斗、推进故事。梦境分多个层级，每层有不同的风景和敌人。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🕳</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦渊</div>
+        <p class="glossary-def">梦境中的深渊区域，也就是你要一层一层往下闯的「关卡」。越深层的梦渊怪物越强，奖励也越丰厚。每层梦渊都有一个守关 Boss。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🛡</div>
+      <div class="glossary-content">
+        <div class="glossary-term">意识抗性</div>
+        <p class="glossary-def">角色最重要的防御属性之一。梦境中的敌人会施加精神层面的攻击，意识抗性越高，越不容易被恐惧、混乱等负面状态影响。新手建议优先堆这个属性。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">😵</div>
+      <div class="glossary-content">
+        <div class="glossary-term">噩梦状态</div>
+        <p class="glossary-def">一种危险的负面状态。当意识抗性不够时，敌人会对你施加噩梦，导致角色行动迟缓、技能冷却变慢、受到额外伤害。可以靠护符和药水来解除或预防。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🔥</div>
+      <div class="glossary-content">
+        <div class="glossary-term">属性克制</div>
+        <p class="glossary-def">游戏的核心战斗规则。五种属性形成循环克制：<strong>烈焰</strong> 克 <strong>冰霜</strong> 克 <strong>雷电</strong> 克 <strong>暗影</strong> 克 <strong>虚空</strong> 克 <strong>烈焰</strong>。用克制属性攻击敌人，伤害会大幅提高。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">💥</div>
+      <div class="glossary-content">
+        <div class="glossary-term">破梦效果</div>
+        <p class="glossary-def">用克制属性击中敌人时触发的奖励机制。触发后额外造成 30% 伤害，并且可以打断敌人的咏唱技能。掌握属性克制、频繁触发破梦是打出高伤害的关键。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">✨</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦境共鸣</div>
+        <p class="glossary-def">队伍共享的临时增益效果。战场中散落着「梦光碎片」，踩上去后会为你和周围队友提供 15 秒的属性提升。合理走位、轮流激活共鸣是高端玩家的必修课。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🔮</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦光碎片</div>
+        <p class="glossary-def">在战场中随机出现的光点，踩上去即可触发「梦境共鸣」增益。效果包括攻击提升、加速冷却、回血等。每场战斗中碎片的位置和效果都是随机的。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">💎</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦核碎片</div>
+        <p class="glossary-def">推进主线剧情的关键收集品。每通关一层梦渊可获得一块碎片，集齐六块后可以开启最终 Boss「卡厄思本体」的挑战。属于不可交易的重要道具。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">💧</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦境之泪</div>
+        <p class="glossary-def">最重要的消耗品——其实就是复活药。死亡后 5 秒内可以使用它自动复活。进 Boss 房前务必确认包里至少有一颗，并把它放到快捷键上以便紧急使用。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">🧙</div>
+      <div class="glossary-content">
+        <div class="glossary-term">梦游者</div>
+        <p class="glossary-def">分布在每层梦渊中的特殊 NPC。与他们多次对话可以触发隐藏剧情，获得「失落记忆碎片」。集齐所有碎片可以解锁游戏的隐藏结局和完整故事线。</p>
+      </div>
+    </article>
+
+    <article class="glossary-card">
+      <div class="glossary-icon">⚗️</div>
+      <div class="glossary-content">
+        <div class="glossary-term">混沌精华</div>
+        <p class="glossary-def">通用的装备强化材料。击败 Boss 或完成特定任务后获得，用于升级武器和防具的基础属性。前期建议集中精华优先强化主力武器，不要分散投资。</p>
+      </div>
+    </article>
+
+  </div>
+</section>
 
 <hr class="divider" />
 
