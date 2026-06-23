@@ -1,0 +1,175 @@
+# ============================================================
+# robots.txt — 卡厄思梦境游戏攻略站
+# https://kaossdream.guide/
+# 最后更新：2025-01-01
+# ============================================================
+
+# ── 对所有爬虫开放的默认规则 ─────────────────────────────
+User-agent: *
+Allow: /
+
+# 禁止抓取后台管理目录
+Disallow: /admin/
+Disallow: /admin-panel/
+Disallow: /cms/
+Disallow: /dashboard/
+
+# 禁止抓取用户账号相关页面
+Disallow: /user/
+Disallow: /account/
+Disallow: /profile/
+Disallow: /login
+Disallow: /logout
+Disallow: /register
+Disallow: /password-reset
+
+# 禁止抓取 API 接口
+Disallow: /api/
+Disallow: /graphql
+
+# 禁止抓取搜索结果页（防止重复内容）
+Disallow: /search?
+Disallow: /search/
+
+# 禁止抓取临时文件和上传目录
+Disallow: /tmp/
+Disallow: /uploads/tmp/
+Disallow: /cache/
+
+# 禁止抓取打印版页面
+Disallow: /*?print=1
+Disallow: /*?format=print
+
+# 允许抓取静态资源（CSS / JS / 字体 / 图片）
+Allow: /assets/
+Allow: /static/
+Allow: /images/
+Allow: /fonts/
+Allow: /*.css
+Allow: /*.js
+
+
+# ── Google 主爬虫 ─────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 2
+
+
+# ── Google 图片爬虫 ────────────────────────────────────────
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /assets/
+Disallow: /
+
+
+# ── Bing 爬虫 ─────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 3
+
+
+# ── 百度爬虫 ──────────────────────────────────────────────
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 5
+
+
+# ── 百度图片爬虫 ──────────────────────────────────────────
+User-agent: Baiduspider-image
+Allow: /images/
+Allow: /assets/
+Disallow: /
+
+
+# ── 搜狗爬虫 ──────────────────────────────────────────────
+User-agent: Sogou web spider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 5
+
+
+# ── 360 爬虫 ──────────────────────────────────────────────
+User-agent: 360Spider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 5
+
+
+# ── 头条 / 字节系爬虫 ─────────────────────────────────────
+User-agent: Bytespider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /user/
+Crawl-delay: 5
+
+
+# ── AI 训练爬虫（屏蔽）────────────────────────────────────
+# 本站内容为玩家原创，禁止用于 AI 模型训练语料
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+
+# ── 恶意爬虫 / 扫描工具（屏蔽）──────────────────────────
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+
+# ── 站点地图 ──────────────────────────────────────────────
+Sitemap: https://kaossdream.guide/sitemap.xml
+Sitemap: https://kaossdream.guide/sitemap-images.xml
+
+# ── Host 声明（辅助 Yandex 识别主域名）──────────────────
+Host: kaossdream.guide
