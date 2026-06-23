@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>卡厄思梦境 · 游戏攻略</title>
+  <meta name="description" content="卡厄思梦境官方攻略站 —— 职业详解、Boss 图解、道具大全、地图速查，助你征服梦境深渊。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://kaossdream.guide/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="卡厄思梦境 · 游戏攻略" />
+  <meta property="og:description" content="最全梦境攻略站：职业、Boss、道具、地图一网打尽" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kaossdream.guide/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────── */
+    :root {
+      --bg:        #0A0E1A;
+      --bg2:       #0F1526;
+      --bg3:       #141C35;
+      --purple:    #6B3FA0;
+      --purple-l:  #9B6FD0;
+      --gold:      #C9A84C;
+      --gold-l:    #F0D070;
+      --teal:      #3AFFD8;
+      --fog:       #E8E4F0;
+      --muted:     #8A8AA0;
+      --border:    rgba(107,63,160,.35);
+
+      --font-display: 'Cinzel', serif;
+      --font-body:    'Noto Sans SC', sans-serif;
+      --r: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fog);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-l); }
+    a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* ─── CANVAS STARFIELD ───────────────────────────── */
+    #starfield {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1rem, 5vw, 3rem);
+      height: 60px;
+      background: rgba(10,14,26,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex; gap: 1.8rem; list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--fog); }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100svh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 1.5rem 3rem;
+      overflow: hidden;
+    }
+
+    /* Nebula gradient orb */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, rgba(107,63,160,.22) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 20% 70%, rgba(58,255,216,.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(201,168,76,.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: .72rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.2rem;
+      opacity: .85;
+    }
+
+    /* Glitch title — the signature element */
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 9vw, 7rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: .04em;
+      color: var(--fog);
+      position: relative;
+      cursor: default;
+      margin-bottom: .5rem;
+    }
+
+    .hero-title span { color: var(--gold); }
+
+    .hero-title::before,
+    .hero-title::after {
+      content: attr(data-text);
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-title::before {
+      color: var(--teal);
+      clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+      transform: translateX(-3px);
+      animation: glitch-1 4s infinite steps(1);
+    }
+
+    .hero-title::after {
+      color: var(--purple-l);
+      clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%);
+      transform: translateX(3px);
+      animation: glitch-2 4s infinite steps(1);
+    }
+
+    @keyframes glitch-1 {
+      0%,79%  { opacity: 0; }
+      80%     { opacity: 1; transform: translateX(-3px) skewX(-5deg); }
+      82%     { opacity: 0; }
+      90%     { opacity: 1; transform: translateX(2px); }
+      92%,100%{ opacity: 0; }
+    }
+
+    @keyframes glitch-2 {
+      0%,84%  { opacity: 0; }
+      85%     { opacity: 1; transform: translateX(3px) skewX(3deg); }
+      87%,100%{ opacity: 0; }
+    }
+
+    .hero-sub {
+      font-size: clamp(.9rem, 2vw, 1.15rem);
+      color: var(--muted);
+      max-width: 520px;
+      margin: 1.4rem auto 2.8rem;
+      font-weight: 300;
+    }
+
+    .hero-cta-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.8rem;
+      border-radius: var(--r);
+      font-family: var(--font-body);
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: transform .18s, box-shadow .18s;
+      border: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), #8B50C8);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(107,63,160,.5);
+    }
+
+    .btn-primary:hover { box-shadow: 0 0 32px rgba(107,63,160,.8); color: #fff; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,.45);
+    }
+
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-l); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: var(--muted); font-size: .7rem; letter-spacing: .15em;
+    }
+
+    .hero-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--purple), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-pulse {
+      0%,100% { opacity: .3; }
+      50% { opacity: 1; }
+    }
+
+    /* ─── SECTION WRAPPER ─────────────────────────────── */
+    .section {
+      position: relative; z-index: 1;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 5rem clamp(1rem, 5vw, 2.5rem);
+    }
+
+    .section-label {
+      font-size: .68rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: .8rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--fog);
+      margin-bottom: 2.8rem;
+    }
+
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ─── QUICK NAV ──────────────────────────────────── */
+    .quick-nav {
+      position: relative; z-index: 1;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quick-nav-inner {
+      max-width: 1160px; margin: 0 auto;
+      padding: 0 clamp(1rem, 5vw, 2.5rem);
+      display: flex; gap: 0; overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .quick-nav-inner::-webkit-scrollbar { display: none; }
+
+    .qn-item {
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: .5rem;
+      padding: .9rem 1.4rem;
+      font-size: .78rem; letter-spacing: .08em;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+
+    .qn-item:hover { color: var(--fog); border-color: var(--purple-l); }
+    .qn-item .icon { font-size: 1rem; }
+
+    /* ─── CLASS CARDS ─────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.6rem 1.4rem;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 60%, var(--purple) 100%);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+
+    .card:hover {
+      border-color: var(--purple-l);
+      box-shadow: 0 4px 32px rgba(107,63,160,.3);
+      transform: translateY(-3px);
+    }
+
+    .card:hover::after { opacity: .08; }
+
+    .card-icon { font-size: 2.2rem; margin-bottom: .8rem; }
+
+    .card-name {
+      font-family: var(--font-display);
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--fog);
+      margin-bottom: .3rem;
+    }
+
+    .card-role {
+      font-size: .72rem;
+      color: var(--teal);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+
+    .card-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .card-diff {
+      display: flex; gap: .2rem; margin-top: .9rem;
+    }
+
+    .diff-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border);
+    }
+
+    .diff-pip.active { background: var(--gold); }
+
+    /* ─── BOSS TABLE ──────────────────────────────────── */
+    .boss-list {
+      display: flex; flex-direction: column; gap: .8rem;
+    }
+
+    .boss-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 1.2rem;
+      align-items: center;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1rem 1.4rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .boss-row:hover {
+      border-color: rgba(201,168,76,.4);
+      box-shadow: 0 2px 24px rgba(201,168,76,.08);
+    }
+
+    .boss-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--bg));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .boss-info {}
+
+    .boss-name {
+      font-family: var(--font-display);
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--fog);
+    }
+
+    .boss-location {
+      font-size: .75rem;
+      color: var(--muted);
+      margin-top: .15rem;
+    }
+
+    .boss-location .zone {
+      color: var(--teal);
+      font-size: .7rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .boss-tags {
+      display: flex; flex-direction: column; align-items: flex-end; gap: .35rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: .15rem .55rem;
+      border-radius: 20px;
+      font-size: .65rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .tag-hard   { background: rgba(220,60,60,.18);  color: #FF8080; border: 1px solid rgba(220,60,60,.35); }
+    .tag-mid    { background: rgba(201,168,76,.18); color: var(--gold); border: 1px solid rgba(201,168,76,.35); }
+    .tag-easy   { background: rgba(58,255,216,.12); color: var(--teal); border: 1px solid rgba(58,255,216,.3); }
+
+    .tag-fire   { background: rgba(255,100,40,.15); color: #FF9060; border: 1px solid rgba(255,100,40,.3); }
+    .tag-frost  { background: rgba(80,160,255,.15); color: #90C8FF; border: 1px solid rgba(80,160,255,.3); }
+    .tag-shadow { background: rgba(107,63,160,.2);  color: var(--purple-l); border: 1px solid var(--border); }
+    .tag-void   { background: rgba(30,10,60,.4);    color: #D080FF; border: 1px solid rgba(160,80,255,.3); }
+
+    @media (max-width: 500px) {
+      .boss-row { grid-template-columns: 44px 1fr; }
+      .boss-tags { display: none; }
+    }
+
+    /* ─── TIPS TABLE ──────────────────────────────────── */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .tip-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1.4rem 1.4rem;
+      position: relative;
+    }
+
+    .tip-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: rgba(107,63,160,.25);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+
+    .tip-title {
+      font-weight: 700;
+      font-size: .92rem;
+      color: var(--gold);
+      margin-bottom: .4rem;
+    }
+
+    .tip-body {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── ITEMS ───────────────────────────────────────── */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .item-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 1rem 1.1rem;
+      display: flex; align-items: flex-start; gap: .8rem;
+      transition: border-color .2s;
+    }
+
+    .item-card:hover { border-color: var(--purple-l); }
+
+    .item-icon {
+      font-size: 1.6rem; flex-shrink: 0;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .item-info {}
+
+    .item-name {
+      font-size: .85rem; font-weight: 700; color: var(--fog);
+      margin-bottom: .15rem;
+    }
+
+    .item-type {
+      font-size: .68rem; color: var(--muted);
+      letter-spacing: .07em; text-transform: uppercase;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem clamp(1rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: .1em;
+      margin-bottom: .6rem;
+    }
+
+    .footer-note {
+      font-size: .75rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer-note a { color: var(--muted); }
+    .footer-note a:hover { color: var(--fog); }
+  </style>
+</head>
+<body>
+
+<!-- ─── STARFIELD ─────────────────────────────────────── -->
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<!-- ─── NAV ──────────────────────────────────────────── -->
+<nav>
+  <span class="nav-logo">卡厄思梦境</span>
+  <ul class="nav-links">
+    <li><a href="#classes">职业</a></li>
+    <li><a href="#bosses">Boss</a></li>
+    <li><a href="#tips">新手指南</a></li>
+    <li><a href="#items">道具</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <p class="hero-eyebrow">深渊攻略 · 梦境指引</p>
+  <h1 class="hero-title" data-text="卡厄思梦境">卡厄<span>思</span>梦境</h1>
+  <p class="hero-sub">踏入无尽梦渊，掌握混沌之力。这里汇集最完整的职业解析、Boss 图解、地图与道具数据库。</p>
+  <div class="hero-cta-row">
+    <a href="#classes" class="btn btn-primary">🗡 职业攻略</a>
+    <a href="#bosses" class="btn btn-ghost">☠ Boss 图鉴</a>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ─── QUICK NAV BAR ─────────────────────────────────── -->
+<div class="quick-nav">
+  <div class="quick-nav-inner">
+    <a href="#classes" class="qn-item"><span class="icon">⚔️</span>职业</a>
+    <a href="#bosses" class="qn-item"><span class="icon">👁</span>Boss</a>
+    <a href="#tips"   class="qn-item"><span class="icon">📖</span>新手指南</a>
+    <a href="#items"  class="qn-item"><span class="icon">💎</span>道具</a>
+    <a href="#map"    class="qn-item"><span class="icon">🗺</span>地图</a>
+    <a href="#patch"  class="qn-item"><span class="icon">🔔</span>版本更新</a>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- ─── CLASSES ─────────────────────────────────────── -->
+<section id="classes" class="section">
+  <p class="section-label">职业选择</p>
+  <h2 class="section-title">六大梦境职业</h2>
+  <div class="cards-grid">
+
+    <article class="card">
+      <div class="card-icon">🌑</div>
+      <div class="card-name">虚影刺客</div>
+      <div class="card-role">刺杀 / 机动</div>
+      <p class="card-desc">游走于黑暗与梦境之间，利用影步与连刺制造爆发伤害。对无意识目标拥有额外伤害加成。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">🌊</div>
+      <div class="card-name">潮梦法师</div>
+      <div class="card-role">法术 / 操控</div>
+      <p class="card-desc">以梦潮召唤幻象洪流，群体控制与召唤结合，可在战场大范围重构意识形态。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">🛡</div>
+      <div class="card-name">深渊守卫</div>
+      <div class="card-role">坦克 / 嘲讽</div>
+      <p class="card-desc">身披混沌之甲，以生命为代价激活虚空护盾，是团队最坚实的盾墙与仇恨锚点。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div><div class="diff-pip"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">🌿</div>
+      <div class="card-name">梦草治愈者</div>
+      <div class="card-role">治疗 / 增益</div>
+      <p class="card-desc">汲取梦境植灵之力，持续治疗与复活同伴，并能将噩梦毒素转化为我方增益。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div><div class="diff-pip"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">⚡</div>
+      <div class="card-name">雷鸣弓手</div>
+      <div class="card-role">远程 / 爆发</div>
+      <p class="card-desc">以梦境能量为弦，发射穿透所有幻象的真实之箭。擅长点杀和清场，机动性极强。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip"></div><div class="diff-pip"></div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-icon">🔮</div>
+      <div class="card-name">混沌先知</div>
+      <div class="card-role">预言 / 诅咒</div>
+      <p class="card-desc">卡厄思梦境的最强辅助，通过预言技能干预敌人决策树，以诅咒持续削弱 Boss 属性。</p>
+      <div class="card-diff">
+        <div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div><div class="diff-pip active"></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ─── BOSSES ─────────────────────────────────────── -->
+<section id="bosses" class="section">
+  <p class="section-label">Boss 图鉴</p>
+  <h2 class="section-title">梦境深渊守护者</h2>
+  <div class="boss-list">
+
+    <div class="boss-row">
+      <div class="boss-avatar">👁</div>
+      <div class="boss-info">
+        <div class="boss-name">虚眼卡尔赛斯</div>
+        <div class="boss-location">
+          <span class="zone">第一层 · 梦初之地</span> — 开裂虚空大厅，需触发三处记忆残片后解锁
+        </div>
+      </div>
+      <div class="boss-tags">
+        <span class="tag tag-easy">入门</span>
+        <span class="tag tag-shadow">暗影系</span>
+      </div>
+    </div>
+
+    <div class="boss-row">
+      <div class="boss-avatar">🌊</div>
+      <div class="boss-info">
+        <div class="boss-name">潮汐女神 · 莫瑞娅</div>
+        <div class="boss-location">
+          <span class="zone">第二层 · 溺梦深海</span> — 沉没神殿B2，海水上涨机制，建议携带呼吸符文
+        </div>
+      </div>
+      <div class="boss-tags">
+        <span class="tag tag-mid">中等</span>
+        <span class="tag tag-frost">冰霜系</span>
+      </div>
+    </div>
+
+    <div class="boss-row">
+      <div class="boss-avatar">🔥</div>
+      <div class="boss-info">
+        <div class="boss-name">炽焰梦魔 · 阿斯赫</div>
+        <div class="boss-location">
+          <span class="zone">第三层 · 焦灼梦原</span> — 岩浆祭坛，三阶段形态变换，第三阶段全队承伤 ×1.5
+        </div>
+      </div>
+      <div class="boss-tags">
+        <span class="tag tag-hard">高难</span>
+        <span class="tag tag-fire">烈焰系</span>
+      </div>
+    </div>
+
+    <div class="boss-row">
+      <div class="boss-avatar">🌑</div>
+      <div class="boss-info">
+        <div class="boss-name">虚无终焉 · 卡厄思本体</div>
+        <div class="boss-location">
+          <span class="zone">最终层 · 梦境核心</span> — 需集齐六枚梦核碎片方可进入，终局战斗不可复活
+        </div>
+      </div>
+      <div class="boss-tags">
+        <span class="tag tag-hard">终局</span>
+        <span class="tag tag-void">虚空系</span>
+      </div>
+    </div>
+
+    <div class="boss-row">
+      <div class="boss-avatar">⚡</div>
+      <div class="boss-info">
+        <div class="boss-name">雷啸双生 · 奥梅特</div>
+        <div class="boss-location">
+          <span class="zone">隐藏层 · 悖论回廊</span> — 仅在暴风雨天气开放，同时与分身战斗，优先处理复制体
+        </div>
+      </div>
+      <div class="boss-tags">
+        <span class="tag tag-hard">隐藏</span>
+        <span class="tag tag-fire">雷电系</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ─── TIPS ───────────────────────────────────────── -->
+<section id="tips" class="section">
+  <p class="section-label">新手指南</p>
+  <h2 class="section-title">踏入梦境前必读</h2>
+  <div class="tips-grid">
+
+    <div class="tip-card">
+      <div class="tip-num">01</div>
+      <div class="tip-title">优先升级意识抗性</div>
+      <p class="tip-body">所有梦境 Boss 均附带精神伤害。意识抗性不足将触发「噩梦状态」，大幅降低操控精度与技能冷却速度。前期优先佩戴「梦魇护符」系列饰品。</p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">02</div>
+      <div class="tip-title">合理利用梦境共鸣</div>
+      <p class="tip-body">战场中散落的「梦光碎片」可被踩踏激活，为周围队友提供 15 秒增益。合理规划走位，在激活碎片的同时打出伤害是高端玩法的核心。</p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">03</div>
+      <div class="tip-title">了解属性克制链</div>
+      <p class="tip-body">烈焰 → 冰霜 → 雷电 → 暗影 → 虚空 → 烈焰，形成循环克制。使用克制属性攻击可触发「破梦效果」，额外造成 30% 伤害并打断咏唱。</p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">04</div>
+      <div class="tip-title">保留一次复活机会</div>
+      <p class="tip-body">「梦境之泪」可在死亡后 5 秒内使用自动复活。进入 Boss 房前务必确认背包中有备用存货，并将其绑定至快捷键栏首位以应对紧急情况。</p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">05</div>
+      <div class="tip-title">隐藏剧情触发条件</div>
+      <p class="tip-body">每层地图均有一位「梦游者 NPC」，与其对话三次后赠送「失落记忆碎片」。集齐六层碎片可解锁卡厄思完整起源故事线及隐藏结局。</p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-num">06</div>
+      <div class="tip-title">多人模式通信信号</div>
+      <p class="tip-body">在无语音环境下，快速双击「标记键」发出「注意」信号，长按发出「撤退」信号。熟练的手势沟通比语音更快，是高效组队的关键习惯。</p>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ─── ITEMS ───────────────────────────────────────── -->
+<section id="items" class="section">
+  <p class="section-label">道具大全</p>
+  <h2 class="section-title">核心道具速查</h2>
+  <div class="items-grid">
+
+    <div class="item-card">
+      <div class="item-icon">💧</div>
+      <div class="item-info">
+        <div class="item-name">梦境之泪</div>
+        <div class="item-type">消耗品 · 复活</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">🪬</div>
+      <div class="item-info">
+        <div class="item-name">梦魇护符</div>
+        <div class="item-type">饰品 · 抗性</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">📜</div>
+      <div class="item-info">
+        <div class="item-name">失落记忆碎片</div>
+        <div class="item-type">关键道具 · 剧情</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">⚗️</div>
+      <div class="item-info">
+        <div class="item-name">混沌精华</div>
+        <div class="item-type">材料 · 强化</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">🌙</div>
+      <div class="item-info">
+        <div class="item-name">月影石</div>
+        <div class="item-type">宝石 · 镶嵌</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">🗝</div>
+      <div class="item-info">
+        <div class="item-name">深渊密钥</div>
+        <div class="item-type">关键道具 · 解锁</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">🫧</div>
+      <div class="item-info">
+        <div class="item-name">呼吸符文</div>
+        <div class="item-type">消耗品 · 水下</div>
+      </div>
+    </div>
+
+    <div class="item-card">
+      <div class="item-icon">💠</div>
+      <div class="item-info">
+        <div class="item-name">梦核碎片 ×6</div>
+        <div class="item-type">关键道具 · 终局</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer id="map">
+  <div class="footer-logo">KAOSS · DREAM</div>
+  <p class="footer-note">
+    本站为《卡厄思梦境》非官方玩家攻略站，内容由社区共同整理维护。<br>
+    游戏版权归原开发商所有。如有侵权请联系 <a href="mailto:admin@kaossdream.guide">admin@kaossdream.guide</a> 删除。<br>
+    <a href="/robots.txt">爬虫协议</a> · <a href="/sitemap.xml">站点地图</a> · © 2025 卡厄思攻略站
+  </p>
+</footer>
+
+<!-- ─── STARFIELD JS ────────────────────────────────── -->
+<script>
+(function () {
+  const canvas = document.getElementById('starfield');
+  const ctx    = canvas.getContext('2d');
+  let   W, H, stars = [];
+
+  const NUM_STARS  = 200;
+  const SPEED_BASE = 0.06;
+
+  function resize () {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars () {
+    stars = [];
+    for (let i = 0; i < NUM_STARS; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + .2,
+        speed: Math.random() * SPEED_BASE + 0.02,
+        opacity: Math.random() * .7 + .1,
+        twinklePhase: Math.random() * Math.PI * 2,
+        twinkleSpeed: Math.random() * .015 + .005,
+      });
+    }
+  }
+
+  function draw (ts) {
+    ctx.clearRect(0, 0, W, H);
+    const t = ts * 0.001;
+    for (const s of stars) {
+      s.twinklePhase += s.twinkleSpeed;
+      const alpha = s.opacity * (.6 + .4 * Math.sin(s.twinklePhase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(232,228,240,${alpha})`;
+      ctx.fill();
+      // drift upward slowly
+      s.y -= s.speed;
+      if (s.y < -2) { s.y = H + 2; s.x = Math.random() * W; }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize();
+  initStars();
+  requestAnimationFrame(draw);
+})();
+</script>
+
+</body>
+</html>
